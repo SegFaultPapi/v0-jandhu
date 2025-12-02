@@ -1,52 +1,26 @@
+"use client"
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Star, ShoppingCart } from "lucide-react"
+import { useCart } from "@/contexts/cart-context"
+import { allProducts } from "@/lib/products"
 
-const featuredProducts = [
-  {
-    id: 1,
-    name: "Set de Construcción Mega Bloques",
-    price: 89.99,
-    originalPrice: 129.99,
-    discount: 31,
-    rating: 4.8,
-    reviews: 234,
-    image: "/colorful-building-blocks-set-toy.jpg",
-  },
-  {
-    id: 2,
-    name: "Muñeca Interactiva Premium",
-    price: 54.99,
-    originalPrice: 79.99,
-    discount: 31,
-    rating: 4.9,
-    reviews: 567,
-    image: "/interactive-doll-toy-for-kids.jpg",
-  },
-  {
-    id: 3,
-    name: "Robot Educativo Programable",
-    price: 149.99,
-    originalPrice: 199.99,
-    discount: 25,
-    rating: 4.7,
-    reviews: 189,
-    image: "/educational-programmable-robot-toy.jpg",
-  },
-  {
-    id: 4,
-    name: "Pista de Carreras Extreme",
-    price: 69.99,
-    originalPrice: 99.99,
-    discount: 30,
-    rating: 4.6,
-    reviews: 423,
-    image: "/racing-track-toy-set-with-cars.jpg",
-  },
-]
+const featuredProductIds = [16, 17, 18, 19]
 
 export function FeaturedOffers() {
+  const { addToCart } = useCart()
+  const featuredProducts = allProducts.filter((p) => featuredProductIds.includes(p.id))
+
+  const handleAddToCart = (e: React.MouseEvent, productId: number) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const product = allProducts.find((p) => p.id === productId)
+    if (product) {
+      addToCart(product)
+    }
+  }
   return (
     <section className="w-full py-12 md:py-16">
       <div className="container mx-auto px-4">
@@ -92,7 +66,11 @@ export function FeaturedOffers() {
                     </div>
                   </div>
 
-                  <Button className="w-full" size="sm">
+                  <Button
+                    className="w-full"
+                    size="sm"
+                    onClick={(e) => handleAddToCart(e, product.id)}
+                  >
                     <ShoppingCart className="h-4 w-4 mr-2" />
                     Agregar al Carrito
                   </Button>

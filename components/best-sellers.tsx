@@ -1,67 +1,32 @@
+"use client"
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Star, TrendingUp } from "lucide-react"
 import Link from "next/link"
+import { useCart } from "@/contexts/cart-context"
+import { allProducts } from "@/lib/products"
 
-const bestSellers = [
-  {
-    id: 1,
-    rank: 1,
-    name: "Dinosaurio T-Rex Interactivo",
-    price: 79.99,
-    rating: 4.9,
-    reviews: 1234,
-    image: "/interactive-dinosaur-toy.jpg",
-  },
-  {
-    id: 2,
-    rank: 2,
-    name: "Kit de Arte Completo",
-    price: 34.99,
-    rating: 4.8,
-    reviews: 892,
-    image: "/kids-art-supplies-kit.jpg",
-  },
-  {
-    id: 3,
-    rank: 3,
-    name: "Castillo de Princesas Grande",
-    price: 119.99,
-    rating: 4.7,
-    reviews: 654,
-    image: "/princess-castle-toy-playset.jpg",
-  },
-  {
-    id: 4,
-    rank: 4,
-    name: "Set de Ciencias para Niños",
-    price: 44.99,
-    rating: 4.9,
-    reviews: 445,
-    image: "/science-experiment-kit-for-kids.jpg",
-  },
-  {
-    id: 5,
-    rank: 5,
-    name: "Patineta Eléctrica Junior",
-    price: 199.99,
-    rating: 4.6,
-    reviews: 328,
-    image: "/patineta-electrica-para-ni-os.jpg",
-  },
-  {
-    id: 6,
-    rank: 6,
-    name: "Peluche Unicornio Gigante",
-    price: 59.99,
-    rating: 4.9,
-    reviews: 876,
-    image: "/peluche-unicornio-gigante.jpg",
-  },
-]
+const bestSellerIds = [10, 11, 12, 13, 14, 15]
 
 export function BestSellers() {
+  const { addToCart } = useCart()
+  const bestSellers = allProducts
+    .filter((p) => bestSellerIds.includes(p.id))
+    .map((product, index) => ({
+      ...product,
+      rank: index + 1,
+    }))
+
+  const handleAddToCart = (e: React.MouseEvent, productId: number) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const product = allProducts.find((p) => p.id === productId)
+    if (product) {
+      addToCart(product)
+    }
+  }
   return (
     <section className="w-full py-12 md:py-16">
       <div className="container mx-auto px-4">

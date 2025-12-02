@@ -5,9 +5,15 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { useCart } from "@/contexts/cart-context"
 
 export function Header() {
   const [showBrandsDropdown, setShowBrandsDropdown] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const router = useRouter()
+  const { getTotalItems } = useCart()
+  const cartItemCount = getTotalItems()
 
   const brands = [
     { name: "LEGO", href: "/marcas/lego" },
@@ -17,6 +23,14 @@ export function Header() {
     { name: "Hasbro", href: "/marcas/hasbro" },
     { name: "Disney", href: "/marcas/disney" },
   ]
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      router.push(`/productos?search=${encodeURIComponent(searchQuery.trim())}`)
+      setSearchQuery("")
+    }
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card">
@@ -37,12 +51,18 @@ export function Header() {
 
           {/* Search bar */}
           <div className="hidden md:flex flex-1 max-w-2xl">
-            <div className="relative flex w-full">
-              <Input type="search" placeholder="Buscar juguetes..." className="w-full rounded-r-none border-r-0" />
-              <Button className="rounded-l-none" size="icon">
+            <form onSubmit={handleSearch} className="relative flex w-full">
+              <Input
+                type="search"
+                placeholder="Buscar juguetes..."
+                className="w-full rounded-r-none border-r-0"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Button type="submit" className="rounded-l-none" size="icon">
                 <Search className="h-4 w-4" />
               </Button>
-            </div>
+            </form>
           </div>
 
           {/* Right side actions */}
@@ -55,9 +75,11 @@ export function Header() {
             <Link href="/carrito">
               <Button variant="ghost" size="icon" className="relative">
                 <ShoppingCart className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-                  3
-                </span>
+                {cartItemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                    {cartItemCount > 99 ? "99+" : cartItemCount}
+                  </span>
+                )}
               </Button>
             </Link>
           </div>
@@ -65,12 +87,18 @@ export function Header() {
 
         {/* Mobile search */}
         <div className="flex md:hidden pb-3">
-          <div className="relative flex w-full">
-            <Input type="search" placeholder="Buscar juguetes..." className="w-full rounded-r-none border-r-0" />
-            <Button className="rounded-l-none" size="icon">
+          <form onSubmit={handleSearch} className="relative flex w-full">
+            <Input
+              type="search"
+              placeholder="Buscar juguetes..."
+              className="w-full rounded-r-none border-r-0"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <Button type="submit" className="rounded-l-none" size="icon">
               <Search className="h-4 w-4" />
             </Button>
-          </div>
+          </form>
         </div>
 
         {/* Navigation */}

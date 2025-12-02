@@ -1,3 +1,5 @@
+"use client"
+
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
@@ -6,8 +8,49 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Star, Truck, Shield, RotateCcw, Heart, Share2, Minus, Plus } from "lucide-react"
 import Image from "next/image"
+import { useState } from "react"
+import { useParams, useRouter } from "next/navigation"
+import { getProductById, allProducts } from "@/lib/products"
+import { useCart } from "@/contexts/cart-context"
+import Link from "next/link"
 
 export default function ProductoDetallePage() {
+  const params = useParams()
+  const router = useRouter()
+  const { addToCart } = useCart()
+  const [quantity, setQuantity] = useState(1)
+
+  const productId = parseInt(params.id as string)
+  const product = getProductById(productId)
+
+  if (!product) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 py-8 text-center">
+          <h1 className="text-2xl font-bold mb-4">Producto no encontrado</h1>
+          <Link href="/productos">
+            <Button>Volver a Productos</Button>
+          </Link>
+        </div>
+        <Footer />
+      </div>
+    )
+  }
+
+  const handleAddToCart = () => {
+    addToCart(product, quantity)
+    setQuantity(1)
+  }
+
+  const handleBuyNow = () => {
+    addToCart(product, quantity)
+    router.push("/carrito")
+  }
+
+  const relatedProducts = allProducts
+    .filter((p) => p.category === product.category && p.id !== product.id)
+    .slice(0, 4)
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -15,15 +58,20 @@ export default function ProductoDetallePage() {
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <div className="text-sm text-muted-foreground mb-6">
-          Inicio / Productos / Construcción / <span className="text-foreground">LEGO Set Castillo Medieval</span>
+          <Link href="/">Inicio</Link> / <Link href="/productos">Productos</Link> / {product.category} /{" "}
+          <span className="text-foreground">{product.name}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           {/* Product Images */}
           <div className="space-y-4">
             <div className="relative aspect-square bg-muted rounded-lg overflow-hidden">
-              <Image src="/lego-castillo-medieval.jpg" alt="LEGO Set Castillo Medieval" fill className="object-cover" />
-              <Badge className="absolute top-4 right-4 bg-destructive text-lg px-3 py-1">-24% OFF</Badge>
+              <Image src={product.image || "/placeholder.svg"} alt={product.name} fill className="object-cover" />
+              {product.discount && product.discount > 0 && (
+                <Badge className="absolute top-4 right-4 bg-destructive text-lg px-3 py-1">
+                  -{product.discount}% OFF
+                </Badge>
+              )}
             </div>
             <div className="grid grid-cols-4 gap-2">
               {[1, 2, 3, 4].map((i) => (
@@ -31,7 +79,12 @@ export default function ProductoDetallePage() {
                   key={i}
                   className="relative aspect-square bg-muted rounded-lg overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary"
                 >
-                  <Image src="/lego-castillo-medieval.jpg" alt={`Imagen ${i}`} fill className="object-cover" />
+                  <Image
+                    src={product.image || "/placeholder.svg"}
+                    alt={`Imagen ${i}`}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
               ))}
             </div>
@@ -41,25 +94,38 @@ export default function ProductoDetallePage() {
           <div className="space-y-6">
             <div>
               <Badge variant="secondary" className="mb-2">
-                Construcción
+                {product.category}
               </Badge>
-              <h1 className="text-3xl font-bold mb-2">LEGO Set Castillo Medieval Premium</h1>
+              <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
               <div className="flex items-center gap-2 mb-4">
                 <div className="flex items-center">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                    <Star
+                      key={i}
+                      className={`h-5 w-5 ${
+                        i < Math.floor(product.rating) ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"
+                      }`}
+                    />
                   ))}
                 </div>
-                <span className="text-lg font-semibold">4.8</span>
-                <span className="text-muted-foreground">(156 reseñas)</span>
+                <span className="text-lg font-semibold">{product.rating}</span>
+                <span className="text-muted-foreground">({product.reviews} reseñas)</span>
               </div>
             </div>
 
             <div className="border-t border-b py-6">
               <div className="flex items-baseline gap-3 mb-2">
-                <span className="text-4xl font-bold text-primary">$1,299</span>
-                <span className="text-xl text-muted-foreground line-through">$1,699</span>
-                <Badge className="bg-green-500">Ahorra $400</Badge>
+                <span className="text-4xl font-bold text-primary">${product.price.toLocaleString()}</span>
+                {product.originalPrice && (
+                  <>
+                    <span className="text-xl text-muted-foreground line-through">
+                      ${product.originalPrice.toLocaleString()}
+                    </span>
+                    <Badge className="bg-green-500">
+                      Ahorra ${(product.originalPrice - product.price).toLocaleString()}
+                    </Badge>
+                  </>
+                )}
               </div>
               <p className="text-sm text-muted-foreground">Precio con IVA incluido</p>
             </div>
@@ -85,19 +151,29 @@ export default function ProductoDetallePage() {
               <div>
                 <label className="text-sm font-semibold mb-2 block">Cantidad:</label>
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" size="icon">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  >
                     <Minus className="h-4 w-4" />
                   </Button>
-                  <span className="w-12 text-center font-semibold">1</span>
-                  <Button variant="outline" size="icon">
+                  <span className="w-12 text-center font-semibold">{quantity}</span>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setQuantity(Math.min((product.stock || 99), quantity + 1))}
+                  >
                     <Plus className="h-4 w-4" />
                   </Button>
-                  <span className="text-sm text-muted-foreground ml-2">12 disponibles</span>
+                  <span className="text-sm text-muted-foreground ml-2">
+                    {product.stock || 99} disponibles
+                  </span>
                 </div>
               </div>
 
               <div className="flex gap-3">
-                <Button size="lg" className="flex-1 text-lg h-12">
+                <Button size="lg" className="flex-1 text-lg h-12" onClick={handleAddToCart}>
                   Agregar al Carrito
                 </Button>
                 <Button size="lg" variant="outline" className="h-12 bg-transparent">
@@ -108,7 +184,7 @@ export default function ProductoDetallePage() {
                 </Button>
               </div>
 
-              <Button size="lg" variant="secondary" className="w-full text-lg h-12">
+              <Button size="lg" variant="secondary" className="w-full text-lg h-12" onClick={handleBuyNow}>
                 Comprar Ahora
               </Button>
             </div>
@@ -127,22 +203,14 @@ export default function ProductoDetallePage() {
               <div className="prose max-w-none">
                 <h3 className="text-xl font-bold mb-4">Descripción del Producto</h3>
                 <p className="text-muted-foreground leading-relaxed mb-4">
-                  Construye tu propio castillo medieval con este increíble set LEGO de 1,200 piezas. Incluye torres,
-                  murallas, un puente levadizo funcional y 8 minifiguras de caballeros, guardias y un rey.
+                  {product.description ||
+                    "Este es un producto de alta calidad que ofrece horas de diversión y entretenimiento."}
                 </p>
-                <p className="text-muted-foreground leading-relaxed mb-4">
-                  Este set es perfecto para niños de 8 años en adelante y ofrece horas de diversión constructiva. Las
-                  piezas son de alta calidad y compatibles con otros sets LEGO.
-                </p>
-                <h4 className="font-semibold mt-6 mb-2">Características destacadas:</h4>
-                <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                  <li>1,200 piezas premium</li>
-                  <li>8 minifiguras incluidas</li>
-                  <li>Puente levadizo funcional</li>
-                  <li>Torres desmontables</li>
-                  <li>Compatible con otros sets LEGO</li>
-                  <li>Manual de instrucciones paso a paso</li>
-                </ul>
+                {product.brand && (
+                  <p className="text-muted-foreground leading-relaxed mb-4">
+                    Marca: <strong>{product.brand}</strong>
+                  </p>
+                )}
               </div>
             </TabsContent>
             <TabsContent value="especificaciones" className="mt-6">
@@ -200,27 +268,31 @@ export default function ProductoDetallePage() {
         </Card>
 
         {/* Related Products */}
-        <div>
-          <h2 className="text-2xl font-bold mb-6">Productos Relacionados</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4].map((i) => (
-              <Card key={i} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
-                <div className="relative aspect-square bg-muted">
-                  <Image
-                    src={`/lego-producto-${i}.jpg`}
-                    alt={`Producto relacionado ${i}`}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-3 space-y-1">
-                  <h3 className="font-semibold text-sm line-clamp-2">LEGO Set {i}</h3>
-                  <p className="text-lg font-bold text-primary">$899</p>
-                </div>
-              </Card>
-            ))}
+        {relatedProducts.length > 0 && (
+          <div>
+            <h2 className="text-2xl font-bold mb-6">Productos Relacionados</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {relatedProducts.map((relatedProduct) => (
+                <Link key={relatedProduct.id} href={`/producto/${relatedProduct.id}`}>
+                  <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
+                    <div className="relative aspect-square bg-muted">
+                      <Image
+                        src={relatedProduct.image || "/placeholder.svg"}
+                        alt={relatedProduct.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="p-3 space-y-1">
+                      <h3 className="font-semibold text-sm line-clamp-2">{relatedProduct.name}</h3>
+                      <p className="text-lg font-bold text-primary">${relatedProduct.price}</p>
+                    </div>
+                  </Card>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <Footer />
