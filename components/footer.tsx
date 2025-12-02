@@ -4,7 +4,7 @@ export function Footer() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <h3 className="font-bold text-xl text-primary">JugueteLandia</h3>
+            <h3 className="font-bold text-xl text-primary">Juguetes Jandhu</h3>
             <p className="text-sm text-muted-foreground">
               Tu tienda de juguetes de confianza desde 2010. Calidad y diversión garantizada.
             </p>
@@ -90,7 +90,7 @@ export function Footer() {
         </div>
 
         <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-          <p>© 2025 JugueteLandia. Todos los derechos reservados.</p>
+          <p>© 2025 Juguetes Jandhu. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>

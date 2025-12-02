@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Star, TrendingUp } from "lucide-react"
+import Link from "next/link"
 
 const bestSellers = [
   {
@@ -103,9 +104,11 @@ export function BestSellers() {
 
                     <div className="flex items-center justify-between">
                       <span className="text-xl font-bold text-primary">${product.price}</span>
-                      <Button size="sm" variant="outline">
-                        Ver
-                      </Button>
+                      <Link href={`/producto/${product.id}`}>
+                        <Button size="sm" variant="outline">
+                          Ver
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </div>

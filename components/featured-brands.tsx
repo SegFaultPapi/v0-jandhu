@@ -1,25 +1,30 @@
 import Image from "next/image"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
 export function FeaturedBrands() {
   const brands = [
     {
       name: "LEGO",
+      slug: "lego",
       image: "/lego-mario-pixel-art.jpg",
       color: "from-red-500/20 to-yellow-500/20",
     },
     {
       name: "Pokémon",
+      slug: "pokemon",
       image: "/pokemon-cards-mega-evolution.jpg",
       color: "from-blue-500/20 to-yellow-500/20",
     },
     {
       name: "Mattel",
+      slug: "mattel",
       image: "/mattel-brick-shop-green-car.jpg",
       color: "from-green-500/20 to-emerald-500/20",
     },
     {
       name: "Star Wars",
+      slug: "star-wars",
       image: "/star-wars-darth-vader.jpg",
       color: "from-blue-600/20 to-slate-800/20",
     },
@@ -43,9 +48,11 @@ export function FeaturedBrands() {
             />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center">
-                <Button size="lg" className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-8">
-                  Conoce más
-                </Button>
+                <Link href={`/marcas/${brand.slug}`}>
+                  <Button size="lg" className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-8">
+                    Conoce más
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
