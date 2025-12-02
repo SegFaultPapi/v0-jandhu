@@ -1,9 +1,23 @@
+"use client"
+
 import { ShoppingCart, Search, Menu, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import { useState } from "react"
 
 export function Header() {
+  const [showBrandsDropdown, setShowBrandsDropdown] = useState(false)
+
+  const brands = [
+    { name: "LEGO", href: "/marcas/lego" },
+    { name: "Pokémon", href: "/marcas/pokemon" },
+    { name: "Mattel", href: "/marcas/mattel" },
+    { name: "Star Wars", href: "/marcas/starwars" },
+    { name: "Hasbro", href: "/marcas/hasbro" },
+    { name: "Disney", href: "/marcas/disney" },
+  ]
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card">
       <div className="container mx-auto px-4">
@@ -33,9 +47,11 @@ export function Header() {
 
           {/* Right side actions */}
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="hidden md:flex">
-              <User className="h-5 w-5" />
-            </Button>
+            <Link href="/perfil">
+              <Button variant="ghost" size="icon" className="hidden md:flex">
+                <User className="h-5 w-5" />
+              </Button>
+            </Link>
             <Link href="/carrito">
               <Button variant="ghost" size="icon" className="relative">
                 <ShoppingCart className="h-5 w-5" />
@@ -74,11 +90,31 @@ export function Header() {
               Novedades
             </Button>
           </Link>
-          <Link href="/marcas">
+          <div
+            className="relative"
+            onMouseEnter={() => setShowBrandsDropdown(true)}
+            onMouseLeave={() => setShowBrandsDropdown(false)}
+          >
             <Button variant="ghost" className="h-auto p-0 hover:bg-transparent hover:text-primary">
               Marcas
             </Button>
-          </Link>
+            {showBrandsDropdown && (
+              <div className="absolute top-full left-0 mt-2 bg-card border rounded-lg shadow-lg p-3 w-[320px]">
+                <div className="grid grid-cols-2 gap-2">
+                  {brands.map((brand) => (
+                    <Link key={brand.name} href={brand.href}>
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start hover:bg-primary hover:text-primary-foreground bg-transparent"
+                      >
+                        {brand.name}
+                      </Button>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
           <Link href="/contacto">
             <Button variant="ghost" className="h-auto p-0 hover:bg-transparent hover:text-primary">
               Atención al Cliente
