@@ -47,3 +47,10 @@
 [00:57:55.980] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/carrito color: rgb(120, 120, 120) color: inherit {"dp":"/carrito","o":"http://localhost:3000/carrito","sdkn":"@vercel/analytics/next","sdkv":"1.6.0","sv":"0.1.3","ts":1764656001953}
 [00:58:00.095] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/productos color: rgb(120, 120, 120) color: inherit {"dp":"/productos","o":"http://localhost:3000/productos","sdkn":"@vercel/analytics/next","sdkv":"1.6.0","sv":"0.1.3","ts":1764656006247}
 [00:58:03.124] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/carrito color: rgb(120, 120, 120) color: inherit {"dp":"/carrito","o":"http://localhost:3000/carrito","sdkn":"@vercel/analytics/next","sdkv":"1.6.0","sv":"0.1.3","ts":1764656009433}
+[01:00:09.128] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./app/productos/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[01:00:09.231] Server  LOG      ✓ Compiled in 98ms
+[01:00:09.432] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:00:09.583] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[01:00:09.583] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/carrito","route":"/carrito"}
+[01:00:09.584] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/carrito color: rgb(120, 120, 120) color: inherit {"dp":"/carrito","o":"http://localhost:3000/carrito","sdkn":"@vercel/analytics/next","sdkv":"1.6.0","sv":"0.1.3","ts":1764656141832}
+[01:00:10.810] Server  LOG      ✓ Compiled in 38ms

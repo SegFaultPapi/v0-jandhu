@@ -1402,10 +1402,7 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 "[project]/app/productos/page.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-__turbopack_context__.s([
-    "default",
-    ()=>ProductosPage
-]);
+__turbopack_context__.s([]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$header$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/header.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$footer$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/footer.tsx [app-client] (ecmascript)");
@@ -1473,7 +1470,7 @@ const sortOptions = [
         label: "Mejor calificados"
     }
 ];
-function ProductosPage() {
+function ProductosContent() {
     _s();
     const searchParams = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSearchParams"])();
     const searchQuery = searchParams.get("search") || "";
@@ -1484,7 +1481,7 @@ function ProductosPage() {
     const [sortBy, setSortBy] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("relevance");
     // Filtrar productos
     const filteredProducts = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
-        "ProductosPage.useMemo[filteredProducts]": ()=>{
+        "ProductosContent.useMemo[filteredProducts]": ()=>{
             let products = searchQuery ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$products$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["searchProducts"])(searchQuery) : __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$products$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["allProducts"];
             products = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$products$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["filterProducts"])({
                 categories: selectedCategories.length > 0 ? selectedCategories : undefined,
@@ -1495,25 +1492,25 @@ function ProductosPage() {
             switch(sortBy){
                 case "price-asc":
                     products.sort({
-                        "ProductosPage.useMemo[filteredProducts]": (a, b)=>a.price - b.price
-                    }["ProductosPage.useMemo[filteredProducts]"]);
+                        "ProductosContent.useMemo[filteredProducts]": (a, b)=>a.price - b.price
+                    }["ProductosContent.useMemo[filteredProducts]"]);
                     break;
                 case "price-desc":
                     products.sort({
-                        "ProductosPage.useMemo[filteredProducts]": (a, b)=>b.price - a.price
-                    }["ProductosPage.useMemo[filteredProducts]"]);
+                        "ProductosContent.useMemo[filteredProducts]": (a, b)=>b.price - a.price
+                    }["ProductosContent.useMemo[filteredProducts]"]);
                     break;
                 case "rating":
                     products.sort({
-                        "ProductosPage.useMemo[filteredProducts]": (a, b)=>b.rating - a.rating
-                    }["ProductosPage.useMemo[filteredProducts]"]);
+                        "ProductosContent.useMemo[filteredProducts]": (a, b)=>b.rating - a.rating
+                    }["ProductosContent.useMemo[filteredProducts]"]);
                     break;
                 default:
                     break;
             }
             return products;
         }
-    }["ProductosPage.useMemo[filteredProducts]"], [
+    }["ProductosContent.useMemo[filteredProducts]"], [
         searchQuery,
         selectedCategories,
         selectedPriceRanges,
@@ -2056,15 +2053,15 @@ function ProductosPage() {
         columnNumber: 5
     }, this);
 }
-_s(ProductosPage, "CZxRyFou6kaQPJMByZw2o4ppp9s=", false, function() {
+_s(ProductosContent, "CZxRyFou6kaQPJMByZw2o4ppp9s=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSearchParams"],
         __TURBOPACK__imported__module__$5b$project$5d2f$contexts$2f$cart$2d$context$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCart"]
     ];
 });
-_c = ProductosPage;
+_c = ProductosContent;
 var _c;
-__turbopack_context__.k.register(_c, "ProductosPage");
+__turbopack_context__.k.register(_c, "ProductosContent");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }

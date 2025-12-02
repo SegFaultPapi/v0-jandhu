@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Star, SlidersHorizontal } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { useState, useEffect, useMemo } from "react"
+import { useState, useMemo, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { allProducts, filterProducts, searchProducts } from "@/lib/products"
 import { useCart } from "@/contexts/cart-context"
@@ -24,7 +24,7 @@ const sortOptions = [
   { value: "rating", label: "Mejor calificados" },
 ]
 
-export default function ProductosPage() {
+function ProductosContent() {
   const searchParams = useSearchParams()
   const searchQuery = searchParams.get("search") || ""
   const { addToCart } = useCart()
@@ -258,3 +258,22 @@ export default function ProductosPage() {
     </div>
   )
 }
+
+export default function ProductosPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex items-center justify-center py-12">
+            <p className="text-muted-foreground">Cargando productos...</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    }>
+      <ProductosContent />
+    </Suspense>
+  )
+}
+
