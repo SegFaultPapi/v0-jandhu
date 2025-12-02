@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Star, Package } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { use } from "react"
 import { allProducts } from "@/lib/products"
 import { useCart } from "@/contexts/cart-context"
 
@@ -20,10 +21,11 @@ const brandNames: Record<string, string> = {
   disney: "Disney",
 }
 
-export default function MarcaPage({ params }: { params: { brand: string } }) {
+export default function MarcaPage({ params }: { params: Promise<{ brand: string }> }) {
   const { addToCart } = useCart()
-  const brandSlug = params.brand.toLowerCase()
-  const brandName = brandNames[brandSlug] || params.brand
+  const { brand } = use(params)
+  const brandSlug = brand.toLowerCase()
+  const brandName = brandNames[brandSlug] || brand
   const products = allProducts.filter((p) => p.brand?.toLowerCase() === brandSlug)
 
   const handleAddToCart = (e: React.MouseEvent, productId: number) => {

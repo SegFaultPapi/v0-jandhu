@@ -127,18 +127,20 @@ export function Header() {
               Marcas
             </Button>
             {showBrandsDropdown && (
-              <div className="absolute top-full left-0 mt-2 bg-card border rounded-lg shadow-lg p-3 w-[320px]">
-                <div className="grid grid-cols-2 gap-2">
-                  {brands.map((brand) => (
-                    <Link key={brand.name} href={brand.href}>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start hover:bg-primary hover:text-primary-foreground bg-transparent"
-                      >
-                        {brand.name}
-                      </Button>
-                    </Link>
-                  ))}
+              <div className="absolute top-full left-0 pt-2 bg-transparent">
+                <div className="bg-card border rounded-lg shadow-lg p-3 w-[320px] z-50">
+                  <div className="grid grid-cols-2 gap-2">
+                    {brands.map((brand) => (
+                      <Link key={brand.name} href={brand.href}>
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start hover:bg-primary hover:text-primary-foreground bg-transparent"
+                        >
+                          {brand.name}
+                        </Button>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}

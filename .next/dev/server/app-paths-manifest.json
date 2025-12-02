@@ -1,5 +1,8 @@
 {
   "/carrito/page": "app/carrito/page.js",
+  "/marcas/[brand]/page": "app/marcas/[brand]/page.js",
+  "/novedades/page": "app/novedades/page.js",
+  "/ofertas/page": "app/ofertas/page.js",
   "/page": "app/page.js",
   "/productos/page": "app/productos/page.js"
 }
