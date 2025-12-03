@@ -135,9 +135,11 @@ export default function CarritoPage() {
                 </div>
               </div>
 
-              <Button size="lg" className="w-full mb-3 text-lg h-12">
-                Proceder al Pago
-              </Button>
+              <Link href="/checkout" className="w-full">
+                <Button size="lg" className="w-full mb-3 text-lg h-12">
+                  Proceder al Pago
+                </Button>
+              </Link>
 
               <div className="flex gap-2">
                 <Link href="/productos" className="flex-1">
