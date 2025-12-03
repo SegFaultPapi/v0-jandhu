@@ -512,10 +512,6 @@
     container: card-header / inline-size;
   }
 
-  .invisible {
-    visibility: hidden;
-  }
-
   .absolute {
     position: absolute;
   }
@@ -658,10 +654,6 @@
     margin-block: calc(var(--spacing) * 1);
   }
 
-  .mt-0 {
-    margin-top: calc(var(--spacing) * 0);
-  }
-
   .mt-0\.5 {
     margin-top: calc(var(--spacing) * .5);
   }
@@ -734,10 +726,6 @@
     margin-left: calc(var(--spacing) * 2);
   }
 
-  .ml-4 {
-    margin-left: calc(var(--spacing) * 4);
-  }
-
   .line-clamp-2 {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -800,10 +788,6 @@
   .size-10 {
     width: calc(var(--spacing) * 10);
     height: calc(var(--spacing) * 10);
-  }
-
-  .h-1 {
-    height: calc(var(--spacing) * 1);
   }
 
   .h-2\.5 {
@@ -1016,14 +1000,6 @@
 
   .cursor-pointer {
     cursor: pointer;
-  }
-
-  .list-inside {
-    list-style-position: inside;
-  }
-
-  .list-disc {
-    list-style-type: disc;
   }
 
   .auto-rows-min {
